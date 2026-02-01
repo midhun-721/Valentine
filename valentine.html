@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine</title>
+<style>
+body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background: #ffe6e6;
+  overflow-x: hidden;
+  position: relative;
+}
+.page { display: none; padding: 20px; }
+.active { display: block; }
+h1 { font-size: 2em; color: #ff3366; margin-top: 40px; }
+button {
+  padding: 15px 30px;
+  font-size: 1.2em;
+  margin: 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+}
+#noBtn { background: #ff6666; position: absolute; transition: all 0.3s ease; }
+#yesBtn { background: #66ff66; }
+.message { margin-top: 20px; color: #cc0033; font-weight: bold; min-height: 30px; }
+
+/* LETTER STYLES */
+.letter-container {
+  width: 90%;
+  max-width: 400px;
+  height: 300px;
+  margin: 50px auto;
+  perspective: 800px;
+}
+.letter {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s;
+  cursor: pointer;
+}
+.letter.flip {
+  transform: rotateY(180deg);
+}
+.letter-front, .letter-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+  font-weight: bold;
+  padding: 15px;
+  box-sizing: border-box;
+}
+.letter-front {
+  background: #ffccff;
+  font-size: 1.5em;
+}
+.letter-back {
+  background: #fff0f5;
+  transform: rotateY(180deg);
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow-y: auto;
+  text-align: left;
+}
+.line {
+  opacity: 0;
+  margin-bottom: 8px;
+  font-size: 1em;
+  transition: opacity 0.5s ease;
+}
+
+/* HEART CONFETTI */
+.heart {
+  position: absolute;
+  color: #ff3366;
+  font-size: 20px;
+  animation: floatUp linear;
+  user-select: none;
+  pointer-events: none;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity:1; }
+  100% { transform: translateY(-500px) scale(0.5); opacity:0; }
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div id="page1" class="page active">
+  <h1>Will you be my Valentine ❣️</h1>
+  <button id="yesBtn">Yes</button>
+  <button id="noBtn">No</button>
+  <div class="message" id="noMessage"></div>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+  <h1>Yayyyyyyyy enaku theriyumey ne yes soluvanu......MUAHHHH 💋</h1>
+  <button id="nextToLetter">Next Page</button>
+</div>
+
+<!-- PAGE 3: LETTER -->
+<div id="page3" class="page">
+  <h1>Touch the letter to open it 💌</h1>
+  <div class="letter-container">
+    <div class="letter" id="letter">
+      <div class="letter-front">💌 Tap to Open 💌</div>
+      <div class="letter-back" id="letterText"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// PAGE NAVIGATION
+const page1 = document.getElementById('page1');
+const page2 = document.getElementById('page2');
+const page3 = document.getElementById('page3');
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const noMessage = document.getElementById('noMessage');
+const nextToLetter = document.getElementById('nextToLetter');
+
+yesBtn.addEventListener('click', () => {
+  page1.classList.remove('active');
+  page2.classList.add('active');
+});
+
+nextToLetter.addEventListener('click', () => {
+  page2.classList.remove('active');
+  page3.classList.add('active');
+});
+
+// SMART DODGING NO BUTTON
+const messages = ["No your making me angry", "Don't dare to do it", "podiii paithiyooo no vaam", "konuduvenn hemaa", "yen ipdi panra", "please hemashreee", "adipen di unna","pehhhh en kita peasathaa"];
+function dodgeNoButton(e) {
+  const touchX = e.touches ? e.touches[0].clientX : e.clientX;
+  const touchY = e.touches ? e.touches[0].clientY : e.clientY;
+  const btnRect = noBtn.getBoundingClientRect();
+  const btnCenterX = btnRect.left + btnRect.width/2;
+  const btnCenterY = btnRect.top + btnRect.height/2;
+  const dx = btnCenterX - touchX;
+  const dy = btnCenterY - touchY;
+  const distance = Math.sqrt(dx*dx + dy*dy);
+  if(distance < 100){
+    let moveX = (dx/distance)*150;
+    let moveY = (dy/distance)*150;
+    let newX = Math.max(0, Math.min(window.innerWidth - btnRect.width, btnRect.left+moveX));
+    let newY = Math.max(50, Math.min(window.innerHeight - btnRect.height-50, btnRect.top+moveY));
+    noBtn.style.left = newX+'px';
+    noBtn.style.top = newY+'px';
+    noMessage.textContent = messages[Math.floor(Math.random()*messages.length)];
+  }
+}
+document.addEventListener('touchmove', dodgeNoButton);
+document.addEventListener('mousemove', dodgeNoButton);
+
+// LETTER PAGE
+const letter = document.getElementById('letter');
+const letterText = document.getElementById('letterText');
+let opened = false;
+
+const messageLines = [
+  "I'm so happy to have you in my life mera sweet cute uh kuttii hemashreee......",
+  "I loveeeeeeee youuuuuuuuu so so so so much 🥰🙈💋...un kooda ennoda travel start panathula irunthu everyday day is a romantic love story ...",
+  "en kutti hemashree alagha siruchutey irupa na konjumbothu😘😘❤️❤️....kolantha maathiri en thol la sanji thoonguva .....",
+  "namba romba thooram vanthutom neraya thandi vanthurukom innum neraya thooram onna polam en thangoo...",
+  "hold my hands tighter babyyy ..😘❤️..I Loveeee Youuu"
+];
+
+// create lines inside back
+letterText.innerHTML = '';
+messageLines.forEach(line => {
+  const div = document.createElement('div');
+  div.className = 'line';
+  div.textContent = line;
+  letterText.appendChild(div);
+});
+
+// reveal lines top-to-bottom
+function revealLines() {
+  const lines = document.querySelectorAll('.line');
+  lines.forEach((line, index) => {
+    setTimeout(() => {
+      line.style.opacity = 1;
+    }, index * 800); // 800ms between lines
+  });
+}
+
+// flip card on touch and reveal text
+letter.addEventListener('click', () => {
+  if (!opened) {
+    opened = true;
+    letter.classList.add('flip');
+    setTimeout(revealLines, 500);
+    // optional: start hearts after flip
+    startHearts();
+  }
+});
+
+// Continuous hearts
+function createHeart(){
+  const heart=document.createElement('div');
+  heart.className='heart';
+  heart.style.left=Math.random()*window.innerWidth+'px';
+  heart.style.fontSize=15+Math.random()*25+'px';
+  heart.style.animationDuration=2+Math.random()*2+'s';
+  heart.textContent='❤️';
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),4000);
+}
+function startHearts(){setInterval(createHeart,300);}
+</script>
+
+</body>
+</html>
