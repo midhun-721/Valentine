@@ -1,273 +1,220 @@
-<!-- PASSWORD SCREEN -->
-<div id="lockScreen" style="
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:#ffe6ee;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:9999;
-font-family:Arial;
-text-align:center;
-">
-
-  <h2>💌 For My Valentine 💌</h2>
-  <p>Enter the secret password</p>
-
-  <input id="passwordInput" type="password" placeholder="Password"
-    style="padding:10px;font-size:16px;border-radius:8px;border:1px solid #ccc;">
-
-  <button onclick="checkPassword()" 
-    style="margin-top:10px;padding:10px 20px;font-size:16px;
-    border:none;border-radius:8px;background:#ff4d6d;color:white;">
-    Unlock ❤️
-  </button>
-
-  <p id="errorMsg" style="color:red;margin-top:10px;"></p>
-</div>
-
-<script>
-function checkPassword() {
-  const correctPassword = "towerpark";
-  const input = document.getElementById("passwordInput").value;
-
-  if (input === correctPassword) {
-    document.getElementById("lockScreen").style.display = "none";
-  } else {
-    document.getElementById("errorMsg").innerText = "Wrong password 😤";
-  }
-}
-</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>For You ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Be My Valentine</title>
+
 <style>
-body {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  background: #ffe6e6;
-  overflow-x: hidden;
-  position: relative;
-}
-.page { display: none; padding: 20px; }
-.active { display: block; }
-h1 { font-size: 2em; color: #ff3366; margin-top: 40px; }
-button {
-  padding: 15px 30px;
-  font-size: 1.2em;
-  margin: 20px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  z-index: 10;
-}
-#noBtn { background: #ff6666; position: absolute; transition: all 0.3s ease; }
-#yesBtn { background: #66ff66; }
-.message { margin-top: 20px; color: #cc0033; font-weight: bold; min-height: 30px; }
-
-/* LETTER STYLES */
-.letter-container {
-  width: 90%;
-  max-width: 400px;
-  height: 300px;
-  margin: 50px auto;
-  perspective: 800px;
-}
-.letter {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.8s;
-  cursor: pointer;
-}
-.letter.flip {
-  transform: rotateY(180deg);
-}
-.letter-front, .letter-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  backface-visibility: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-  font-weight: bold;
-  padding: 15px;
-  box-sizing: border-box;
-}
-.letter-front {
-  background: #ffccff;
-  font-size: 1.5em;
-}
-.letter-back {
-  background: #fff0f5;
-  transform: rotateY(180deg);
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  overflow-y: auto;
-  text-align: left;
-}
-.line {
-  opacity: 0;
-  margin-bottom: 8px;
-  font-size: 1em;
-  transition: opacity 0.5s ease;
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#ffe6f0;
+  text-align:center;
 }
 
-/* HEART CONFETTI */
-.heart {
-  position: absolute;
-  color: #ff3366;
-  font-size: 20px;
-  animation: floatUp linear;
-  user-select: none;
-  pointer-events: none;
+/* PASSWORD SCREEN */
+#lockScreen{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:#ffb6c1;
 }
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(1); opacity:1; }
-  100% { transform: translateY(-500px) scale(0.5); opacity:0; }
+
+#lockScreen input{
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+}
+
+#lockScreen button{
+  margin-top:10px;
+  padding:10px 20px;
+  border:none;
+  border-radius:10px;
+  background:#ff4081;
+  color:white;
+  font-size:16px;
+}
+
+/* PAGES */
+.page{
+  display:none;
+  padding:20px;
+}
+
+.page.active{
+  display:block;
+}
+
+/* BUTTONS */
+button{
+  padding:12px 20px;
+  font-size:16px;
+  border:none;
+  border-radius:10px;
+  margin:10px;
+}
+
+#yesBtn{background:#ff4081;color:white;}
+#noBtn{background:#999;color:white;position:relative;}
+
+#anger{
+  color:#d10000;
+  margin-top:10px;
+  height:20px;
+}
+
+/* LETTER */
+.letter{
+  width:280px;
+  height:200px;
+  margin:30px auto;
+  perspective:1000px;
+  cursor:pointer;
+}
+
+.letter-inner{
+  width:100%;
+  height:100%;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform 1s;
+}
+
+.letter.open .letter-inner{
+  transform:rotateY(180deg);
+}
+
+.front, .back{
+  position:absolute;
+  width:100%;
+  height:100%;
+  backface-visibility:hidden;
+  border-radius:15px;
+}
+
+.front{
+  background:#ff5c8a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:45px;
+}
+
+.back{
+  background:white;
+  transform:rotateY(180deg);
+  padding:15px;
+  overflow:hidden;
+  text-align:left;
+  font-size:14px;
+}
+
+/* LINE ANIMATION */
+.line{
+  opacity:0;
+  animation:show 0.6s forwards;
+}
+
+.line:nth-child(1){animation-delay:0.5s}
+.line:nth-child(2){animation-delay:1s}
+.line:nth-child(3){animation-delay:1.5s}
+.line:nth-child(4){animation-delay:2s}
+.line:nth-child(5){animation-delay:2.5s}
+.line:nth-child(6){animation-delay:3s}
+.line:nth-child(7){animation-delay:3.5s}
+.line:nth-child(8){animation-delay:4s}
+
+@keyframes show{
+  to{opacity:1;}
 }
 </style>
 </head>
+
 <body>
 
+<!-- PASSWORD -->
+<div id="lockScreen">
+  <h2>Enter Password 💗</h2>
+  <input type="password" id="passwordInput" placeholder="Password">
+  <button onclick="unlock()">Unlock</button>
+</div>
+
 <!-- PAGE 1 -->
-<div id="page1" class="page active">
+<div id="page1" class="page">
   <h1>Will you be my Valentine ❣️</h1>
-  <button id="yesBtn">Yes</button>
-  <button id="noBtn">No</button>
-  <div class="message" id="noMessage"></div>
+  <button id="yesBtn" onclick="goPage(2)">YES</button>
+  <button id="noBtn" onmouseover="moveNo()">NO</button>
+  <div id="anger"></div>
 </div>
 
 <!-- PAGE 2 -->
 <div id="page2" class="page">
-  <h1>Yayyyyyyyy enaku theriyumey ne yes soluvanu......MUAHHHH 💋</h1>
-  <button id="nextToLetter">Next Page</button>
+  <h1>yayyyyyyyy 😍</h1>
+  <p>enaku theriyumey ne yes soluvanu...... MUAHHHH 💋</p>
+  <button onclick="goPage(3)">Next ➡️</button>
 </div>
 
-<!-- PAGE 3: LETTER -->
+<!-- PAGE 3 -->
 <div id="page3" class="page">
-  <h1>Touch the letter to open it 💌</h1>
-  <div class="letter-container">
-    <div class="letter" id="letter">
-      <div class="letter-front">💌 Tap to Open 💌</div>
-      <div class="letter-back" id="letterText"></div>
+  <h2>Tap the letter 💌</h2>
+
+  <div class="letter" onclick="openLetter(this)">
+    <div class="letter-inner">
+      <div class="front">💌</div>
+      <div class="back">
+        <p class="line">I'm so happy to have you in my life mera sweet cute uh kuttii hemashreee......</p>
+        <p class="line">i loveeeeeeee youuuuuuuuu so so so so much 🥰🙈💋</p>
+        <p class="line">allen la join panathu romba nalla visiyam na panathula</p>
+        <p class="line">anga una paatha naala thaan ipo una konji konji</p>
+        <p class="line">kolantha maathiri paathuka mudiyuthu 😘❤️</p>
+        <p class="line">en kutti hemashree alagha siruchutey irupa na konjumbothu</p>
+        <p class="line">kolantha maathiri en thol la sanji thoonguva</p>
+        <p class="line">hold my hands tighter babyyy 😘❤️</p>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-// PAGE NAVIGATION
-const page1 = document.getElementById('page1');
-const page2 = document.getElementById('page2');
-const page3 = document.getElementById('page3');
-const yesBtn = document.getElementById('yesBtn');
-const noBtn = document.getElementById('noBtn');
-const noMessage = document.getElementById('noMessage');
-const nextToLetter = document.getElementById('nextToLetter');
-
-yesBtn.addEventListener('click', () => {
-  page1.classList.remove('active');
-  page2.classList.add('active');
-});
-
-nextToLetter.addEventListener('click', () => {
-  page2.classList.remove('active');
-  page3.classList.add('active');
-});
-
-// SMART DODGING NO BUTTON
-const messages = ["No your making me angry", "Don't dare to do it", "podiii paithiyooo no vaam", "konuduvenn hemaa", "yen ipdi panra", "please hemashreee", "adipen di unna","pehhhh en kita peasathaa"];
-function dodgeNoButton(e) {
-  const touchX = e.touches ? e.touches[0].clientX : e.clientX;
-  const touchY = e.touches ? e.touches[0].clientY : e.clientY;
-  const btnRect = noBtn.getBoundingClientRect();
-  const btnCenterX = btnRect.left + btnRect.width/2;
-  const btnCenterY = btnRect.top + btnRect.height/2;
-  const dx = btnCenterX - touchX;
-  const dy = btnCenterY - touchY;
-  const distance = Math.sqrt(dx*dx + dy*dy);
-  if(distance < 100){
-    let moveX = (dx/distance)*150;
-    let moveY = (dy/distance)*150;
-    let newX = Math.max(0, Math.min(window.innerWidth - btnRect.width, btnRect.left+moveX));
-    let newY = Math.max(50, Math.min(window.innerHeight - btnRect.height-50, btnRect.top+moveY));
-    noBtn.style.left = newX+'px';
-    noBtn.style.top = newY+'px';
-    noMessage.textContent = messages[Math.floor(Math.random()*messages.length)];
-  }
-}
-document.addEventListener('touchmove', dodgeNoButton);
-document.addEventListener('mousemove', dodgeNoButton);
-
-// LETTER PAGE
-const letter = document.getElementById('letter');
-const letterText = document.getElementById('letterText');
-let opened = false;
-
-const messageLines = [
-  "I'm so happy to have you in my life mera sweet cute uh kuttii hemashreee......",
-  "I loveeeeeeee youuuuuuuuu so so so so much 🥰🙈💋...un kooda ennoda travel start panathula irunthu everyday day is a romantic love story ...",
-  "en kutti hemashree alagha siruchutey irupa na konjumbothu😘😘❤️❤️....kolantha maathiri en thol la sanji thoonguva .....",
-  "namba romba thooram vanthutom neraya thandi vanthurukom innum neraya thooram onna polam en thangoo...",
-  "hold my hands tighter babyyy ..😘❤️..I Loveeee Youuu"
+const angerLines=[
+  "No 😠 you're making me angry",
+  "Don't dare to do it 😤",
+  "Oops you are wrong 😡"
 ];
+let angerIndex=0;
 
-// create lines inside back
-letterText.innerHTML = '';
-messageLines.forEach(line => {
-  const div = document.createElement('div');
-  div.className = 'line';
-  div.textContent = line;
-  letterText.appendChild(div);
-});
-
-// reveal lines top-to-bottom
-function revealLines() {
-  const lines = document.querySelectorAll('.line');
-  lines.forEach((line, index) => {
-    setTimeout(() => {
-      line.style.opacity = 1;
-    }, index * 800); // 800ms between lines
-  });
-}
-
-// flip card on touch and reveal text
-letter.addEventListener('click', () => {
-  if (!opened) {
-    opened = true;
-    letter.classList.add('flip');
-    setTimeout(revealLines, 500);
-    // optional: start hearts after flip
-    startHearts();
+function unlock(){
+  if(document.getElementById("passwordInput").value==="towerpark"){
+    document.getElementById("lockScreen").style.display="none";
+    goPage(1);
+  }else{
+    alert("Wrong password 😤");
   }
-});
-
-// Continuous hearts
-function createHeart(){
-  const heart=document.createElement('div');
-  heart.className='heart';
-  heart.style.left=Math.random()*window.innerWidth+'px';
-  heart.style.fontSize=15+Math.random()*25+'px';
-  heart.style.animationDuration=2+Math.random()*2+'s';
-  heart.textContent='❤️';
-  document.body.appendChild(heart);
-  setTimeout(()=>heart.remove(),4000);
 }
-function startHearts(){setInterval(createHeart,300);}
+
+function goPage(n){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("page"+n).classList.add("active");
+}
+
+function moveNo(){
+  const btn=document.getElementById("noBtn");
+  btn.style.left=Math.random()*200-100+"px";
+  btn.style.top=Math.random()*200-100+"px";
+  document.getElementById("anger").innerText=angerLines[angerIndex%angerLines.length];
+  angerIndex++;
+}
+
+function openLetter(el){
+  el.classList.add("open");
+}
 </script>
 
 </body>
 </html>
+  
