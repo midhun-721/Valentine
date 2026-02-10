@@ -11,6 +11,7 @@ body{
   font-family: Arial, sans-serif;
   background:#ffe6f0;
   text-align:center;
+  overflow-x:hidden;
 }
 
 /* PASSWORD SCREEN */
@@ -63,9 +64,9 @@ button{
 #noBtn{background:#999;color:white;position:relative;}
 
 #anger{
-  color:#d10000;
+  color:#c40000;
   margin-top:10px;
-  height:20px;
+  height:24px;
 }
 
 /* LETTER */
@@ -75,6 +76,8 @@ button{
   margin:30px auto;
   perspective:1000px;
   cursor:pointer;
+  position:relative;
+  z-index:2;
 }
 
 .letter-inner{
@@ -132,12 +135,32 @@ button{
 @keyframes show{
   to{opacity:1;}
 }
+
+/* FLOATING HEARTS */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  animation:floatUp 6s linear forwards;
+  pointer-events:none;
+  z-index:0;
+}
+
+@keyframes floatUp{
+  from{
+    transform:translateY(0) scale(1);
+    opacity:1;
+  }
+  to{
+    transform:translateY(-100vh) scale(1.5);
+    opacity:0;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<!-- PASSWORD -->
+<!-- PASSWORD SCREEN -->
 <div id="lockScreen">
   <h2>Enter Password 💗</h2>
   <input type="password" id="passwordInput" placeholder="Password">
@@ -174,20 +197,14 @@ button{
         <p class="line">kolantha maathiri paathuka mudiyuthu 😘❤️</p>
         <p class="line">en kutti hemashree alagha siruchutey irupa na konjumbothu</p>
         <p class="line">kolantha maathiri en thol la sanji thoonguva</p>
-        <p class="line">hold my hands tighter babyyy 😘❤️</p>
+        <p class="line">hold my hands tighter babyyy...namba romba thooram polam 😘❤️</p>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-const angerLines=[
-  "No 😠 you're making me angry",
-  "Don't dare to do it 😤",
-  "Oops you are wrong 😡"
-];
-let angerIndex=0;
-
+/* PASSWORD */
 function unlock(){
   if(document.getElementById("passwordInput").value==="towerpark"){
     document.getElementById("lockScreen").style.display="none";
@@ -197,24 +214,49 @@ function unlock(){
   }
 }
 
+/* PAGE CONTROL */
 function goPage(n){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById("page"+n).classList.add("active");
 }
 
+/* NO BUTTON – UPDATED ANGER LINES */
+const angerLines=[
+  "Venam hema ipdi panatha 🥺",
+  "Kadupethura 😠",
+  "Adipen di unna 😤",
+  "Please 🥺",
+  "Ithu nalla ila 😒"
+];
+let angerIndex=0;
+
 function moveNo(){
   const btn=document.getElementById("noBtn");
   btn.style.left=Math.random()*200-100+"px";
   btn.style.top=Math.random()*200-100+"px";
-  document.getElementById("anger").innerText=angerLines[angerIndex%angerLines.length];
+  document.getElementById("anger").innerText=
+    angerLines[angerIndex % angerLines.length];
   angerIndex++;
 }
 
+/* LETTER */
 function openLetter(el){
   el.classList.add("open");
+}
+
+/* FLOATING HEARTS */
+setInterval(createHeart,500);
+
+function createHeart(){
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerText="❤️";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(14+Math.random()*20)+"px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
 }
 </script>
 
 </body>
 </html>
-  
